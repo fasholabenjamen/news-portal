@@ -4,8 +4,9 @@ namespace App\Services\Articles\Providers\NewsData;
 
 use App\Contracts\Connectors\ConnectorContract;
 use App\Services\Articles\Providers\BaseProvider;
-use Illuminate\Support\Collection;
 use App\Services\Articles\Providers\NewsData\ArticleData;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class NewsDataProvider extends BaseProvider
 {
@@ -29,6 +30,7 @@ class NewsDataProvider extends BaseProvider
             $articlesReq = $this->client->getArticles($params);
 
             if ($articlesReq->failed()) {
+                Log::error('Request to get articles from NewsData failed' . $articlesReq->getErrorMessage());
                 // Handle error as needed
                 break;
             }

@@ -4,8 +4,9 @@ namespace App\Services\Articles\Providers\NewYorkTimes;
 
 use App\Contracts\Connectors\ConnectorContract;
 use App\Services\Articles\Providers\BaseProvider;
-use Illuminate\Support\Collection;
 use App\Services\Articles\Providers\NewYorkTimes\ArticleData;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class NewYorkTimesProvider extends BaseProvider
 {
@@ -16,6 +17,7 @@ class NewYorkTimesProvider extends BaseProvider
         $articlesReq = $this->client->getArticles();
 
         if ($articlesReq->failed()) {
+            Log::error('Request to get articles from New York Times failed' . $articlesReq->getErrorMessage());
             // Handle error as needed
             return;
         }

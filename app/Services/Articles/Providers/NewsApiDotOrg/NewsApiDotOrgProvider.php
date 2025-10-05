@@ -6,6 +6,7 @@ use App\Contracts\Connectors\NewsApiDotOrgConnector;
 use App\Services\Articles\Providers\BaseProvider;
 use App\Services\Articles\Providers\NewsApiDotOrg\ArticleData;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class NewsApiDotOrgProvider extends BaseProvider
 {
@@ -15,7 +16,7 @@ class NewsApiDotOrgProvider extends BaseProvider
     {
         $sourcesReq = $this->client->getTopHeadlineSource(['language' => 'en']);
         if ($sourcesReq->failed()) {
-            // Handle error as needed
+            Log::error('Request to get top healines failed' . $sourcesReq->getErrorMessage());
             return;
         }
 
@@ -26,6 +27,7 @@ class NewsApiDotOrgProvider extends BaseProvider
             ];
             $articlesReq = $this->client->getArticles($params);
             if ($articlesReq->failed()) {
+                Log::error('Request to get articles from NewsApi.org failed' . $articlesReq->getErrorMessage());
                 // Handle error as needed
                 return;
             }
@@ -36,7 +38,9 @@ class NewsApiDotOrgProvider extends BaseProvider
 
     protected function processData(Collection $data): void
     {
-        $articles = $data->map(static fn(array $article) => new ArticleData($article));
+        $articles = $data
+            ->reject(fn(array $article) => empty($article['title']) || empty($article['content']))
+            ->map(fn(array $article) => new ArticleData($article));
         $this->saveArticles($articles);
     }
 }

@@ -6,6 +6,7 @@ use App\Contracts\Connectors\ConnectorContract;
 use App\Services\Articles\Providers\BaseProvider;
 use App\Services\Articles\Providers\NewsApiDotAi\ArticleData;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class NewsApiDotAiProvider extends BaseProvider
 {
@@ -23,6 +24,7 @@ class NewsApiDotAiProvider extends BaseProvider
             $params['page'] = $next_page;
             $articlesReq = $this->client->getArticles($params);
             if ($articlesReq->failed()) {
+                Log::error('Request to get articles from NewsApi.ai failed' . $articlesReq->getErrorMessage());
                 // Handle error as needed
                 break;
             }

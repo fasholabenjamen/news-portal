@@ -17,12 +17,20 @@ use App\Models\Article;
 use App\Models\Source;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 trait ArticleSaver
 {
     public function saveArticles(Collection $articles): void
     {
-        $articles->each(fn(ArticleDataContract $article) => $this->saveArticle($article));
+        $articles->each(function (ArticleDataContract $article) {
+            try {
+                $this->saveArticle($article);
+            } catch (\Exception $e) {
+                // Log the error or handle it as needed
+               Log::error('Failed to save article: ' . $e->getMessage());
+            }
+        });
     }
 
     public function saveArticle(ArticleDataContract $article): void

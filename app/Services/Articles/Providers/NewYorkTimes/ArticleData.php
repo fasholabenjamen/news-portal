@@ -14,6 +14,7 @@ use App\Contracts\Article\{
 use App\Enums\ArticleProviders;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 class ArticleData implements ArticleDataContract, HasImageUrl, HasCategory, HasKeywords, HasDescription, HasProviderIdentity, HasSource
 {
@@ -48,7 +49,7 @@ class ArticleData implements ArticleDataContract, HasImageUrl, HasCategory, HasK
 
     public function getImageUrl(): ?string
     {
-        return $this->data['image_url'];
+        return Arr::get($this->data, 'media.0.media-metadata.0.url');
     }
 
     public function getCategory(): ?string
@@ -58,7 +59,7 @@ class ArticleData implements ArticleDataContract, HasImageUrl, HasCategory, HasK
 
     public function getDesciption(): ?string
     {
-        return $this->data['description'];
+        return $this->data['abstract'];
     }
 
     public function getProviderID(): string
@@ -78,6 +79,6 @@ class ArticleData implements ArticleDataContract, HasImageUrl, HasCategory, HasK
 
     public function getKeywords(): string
     {
-        return implode(',', $this->data['des_facet'] ?? '');
+        return implode(',', $this->data['des_facet'] ?? []);
     }
 }
