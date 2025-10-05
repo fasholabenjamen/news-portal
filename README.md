@@ -27,3 +27,5 @@ NEWSAPI_DOT_AI_API_TOKEN=
 NEWS_DATA_TOKEN=
 NEW_YORK_TIMES_TOKEN=
 
+Swagger Documentation
+<img width="3250" height="1812" alt="image" src="https://github.com/user-attachments/assets/c86a64a2-b5be-4493-89a5-a576cc696b36" />
