@@ -34,5 +34,15 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-
+    'news_api_dot_org' => [
+        'api_token' => env('NEWSAPI_DOT_ORG_API_TOKEN'),
+    ],
+    'news_api_dot_ai' => [
+        'api_token' => env('NEWSAPI_DOT_AI_API_TOKEN'),
+        'max_page' => env('NEWS_API_DOT_AI_MAX_PAGE', 20),
+    ],
+    'news_data' => [
+        'api_token' => env('NEWS_DATA_TOKEN'),
+        'max_page' => env('NEWS_DATA_MAX_PAGE', 20),
+    ]
 ];
