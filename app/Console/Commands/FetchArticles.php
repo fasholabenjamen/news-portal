@@ -28,8 +28,9 @@ class FetchArticles extends Command
      */
     public function handle()
     {
-        collect(ArticleProviderFactory::getProviders())->each(function (ArticleProviders $provider) {
-            FetchArticlesJob::dispatch($provider->value);
-        });
+        FetchArticlesJob::dispatch(ArticleProviders::NEW_YORK_TIMES->value);
+        // collect(ArticleProviderFactory::getProviders())->each(function (ArticleProviders $provider) {
+        //     FetchArticlesJob::dispatch($provider->value);
+        // });
     }
 }

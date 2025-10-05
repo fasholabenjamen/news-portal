@@ -13,6 +13,7 @@ class ClientConnection implements ConnectorContract
 
     const BASE_URL = 'https://eventregistry.org/api/v1/';
     protected string $api_token;
+    protected string $auth_key = 'apiKey';
     protected PendingRequest $client;
 
     public function __construct()
@@ -21,7 +22,7 @@ class ClientConnection implements ConnectorContract
         $this->initRequest(static::BASE_URL);
     }
 
-    public function getArticles(array $params): ClientResponse
+    public function getArticles(array $params = []): ClientResponse
     {
         return $this->sendGetRequest(uri: 'article/getArticles', parameters: $params);
     }

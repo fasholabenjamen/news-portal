@@ -10,6 +10,8 @@ use App\Services\Articles\Providers\NewsApiDotOrg\ClientConnection as NewsApiDot
 use App\Services\Articles\Providers\NewsApiDotOrg\NewsApiDotOrgProvider;
 use App\Services\Articles\Providers\NewsData\ClientConnection as NewsDataClientConnection;
 use App\Services\Articles\Providers\NewsData\NewsDataProvider;
+use App\Services\Articles\Providers\NewYorkTimes\ClientConnection as NewYorkTimesClientConnection;
+use App\Services\Articles\Providers\NewYorkTimes\NewYorkTimesProvider;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->singleton(NewsDataProvider::class, function ($app) {
             return new NewsDataProvider(new NewsDataClientConnection());
+        });
+        $this->app->singleton(NewYorkTimesProvider::class, function ($app) {
+            return new NewYorkTimesProvider(new NewYorkTimesClientConnection());
         });
     }
 

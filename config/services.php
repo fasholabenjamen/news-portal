@@ -44,5 +44,8 @@ return [
     'news_data' => [
         'api_token' => env('NEWS_DATA_TOKEN'),
         'max_page' => env('NEWS_DATA_MAX_PAGE', 20),
+    ],
+    'new_york_times' => [
+        'api_token' => env('NEW_YORK_TIMES_TOKEN')
     ]
 ];

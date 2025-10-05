@@ -12,7 +12,7 @@ trait ClientConnectionHelper
     protected function sendGetRequest(string $uri, $parameters = []): ClientResponse
     {
         try {
-            $res = $this->client->get($uri, array_merge($parameters, ['apiKey' => $this->api_token]));
+            $res = $this->client->get($uri, array_merge($parameters, [$this->auth_key => $this->api_token]));
         } catch (ConnectionException $exception) {
             return new ClientResponse(Response::HTTP_SERVICE_UNAVAILABLE, $exception->getMessage());
         }

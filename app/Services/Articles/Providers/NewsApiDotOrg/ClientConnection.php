@@ -12,6 +12,7 @@ class ClientConnection implements NewsApiDotOrgConnector
 
     const BASE_URL = 'https://newsapi.org/v2/';
     protected string $api_token;
+    protected string $auth_key = 'apiKey';
     protected PendingRequest $client;
 
     public function __construct()
@@ -20,7 +21,7 @@ class ClientConnection implements NewsApiDotOrgConnector
         $this->initRequest(static::BASE_URL);
     }
 
-    public function getArticles(array $params): ClientResponse
+    public function getArticles(array $params = []): ClientResponse
     {
         return $this->sendGetRequest(uri: 'everything', parameters: $params);
     }

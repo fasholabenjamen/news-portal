@@ -10,11 +10,12 @@ use App\Contracts\Article\{
     HasImageUrl,
     HasLanguage,
     HasSource,
+    HasKeywords,
 };
 use App\Enums\ArticleProviders;
 use Carbon\Carbon;
 
-class ArticleData implements ArticleDataContract, HasImageUrl, HasCategory, HasLanguage, HasDescription, HasProviderIdentity, HasSource
+class ArticleData implements ArticleDataContract, HasImageUrl, HasCategory, HasLanguage, HasDescription, HasProviderIdentity, HasSource, HasKeywords
 {
     public function __construct(protected array $data)
     {
@@ -78,6 +79,15 @@ class ArticleData implements ArticleDataContract, HasImageUrl, HasCategory, HasL
     public function getSourceName(): string
     {
         return $this->data['source_name'];
+    }
+
+    public function getKeywords(): string
+    {
+        if (empty($this->data['keywords'])) {
+            return '';
+        }
+
+        return implode(',', $this->data['keywords']);
     }
 
     protected function parseCategory(): string
