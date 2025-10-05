@@ -17,18 +17,32 @@ class ArticleController extends Controller
      *     summary="Get a paginated list of articles",
      *     description="Retrieve articles with optional filters for category, author, source, publish date range, and free-text search across title, description, content, and keywords.",
      *     @OA\Parameter(
-     *         name="category",
+     *         name="category_id",
      *         in="query",
-     *         description="Filter by category",
+     *         description="Filter by category identifier",
      *         required=false,
-     *         @OA\Schema(type="string", example="World News")
+    *         @OA\Schema(type="integer", example=1)
      *     ),
      *     @OA\Parameter(
-     *         name="author",
+     *         name="categories_id",
      *         in="query",
-     *         description="Filter by author",
+     *         description="Filter by user categories identifier",
      *         required=false,
-     *         @OA\Schema(type="string", example="Benjamen")
+    *         @OA\Schema(type="array", @OA\Items(type="integer"), example={2, 3})
+     *     ),
+     *     @OA\Parameter(
+     *         name="author_id",
+     *         in="query",
+     *         description="Filter by author identifier",
+     *         required=false,
+    *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="authors_id",
+     *         in="query",
+     *         description="Filter by authors identifier",
+     *         required=false,
+    *         @OA\Schema(type="array", @OA\Items(type="integer"), example={1, 2})
      *     ),
      *     @OA\Parameter(
      *         name="source_id",
@@ -36,6 +50,13 @@ class ArticleController extends Controller
      *         description="Filter by source identifier",
      *         required=false,
      *         @OA\Schema(type="integer", example=3)
+     *     ),
+     *     @OA\Parameter(
+     *         name="sources_id",
+     *         in="query",
+     *         description="Filter by sources identifier",
+     *         required=false,
+    *         @OA\Schema(type="array", @OA\Items(type="integer"), example={3, 4})
      *     ),
      *     @OA\Parameter(
      *         name="publish_date",
@@ -56,7 +77,7 @@ class ArticleController extends Controller
      *         in="query",
      *         description="Number of results per page (max 100)",
      *         required=false,
-     *         @OA\Schema(type="integer", default=15)
+     *         @OA\Schema(type="integer", default=50)
      *     ),
      *     @OA\Parameter(
      *         name="page",
@@ -81,16 +102,16 @@ class ArticleController extends Controller
         $validated = $request->validated();
         $query = Article::query();
 
-        if (!empty($validated['category'])) {
-            $query->category($validated['category']);
+        if ($categories = $request->categoryFilters()) {
+            $query->category($categories);
         }
 
-        if (!empty($validated['author'])) {
-            $query->author($validated['author']);
+        if ($authors = $request->authorFilters()) {
+            $query->author($authors);
         }
 
-        if (!empty($validated['source_id'])) {
-            $query->source($validated['source_id']);
+        if ($sources = $request->sourceFilters()) {
+            $query->source($sources);
         }
 
         if (!empty($validated['publish_date'])) {
@@ -106,7 +127,7 @@ class ArticleController extends Controller
             );
         }
 
-        $perPage = $validated['per_page'] ?? 50;
+        $perPage = min((int) $validated['per_page'] ?? 50, 100);
         $articles = $query->paginate($perPage);
 
         return $this->paginatedResponse($articles, ArticlesResource::class);
@@ -114,7 +135,7 @@ class ArticleController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/articles/{id}",
+     *     path="/articles/{id}",
      *     tags={"Articles"},
      *     summary="Get a single article",
      *     description="Fetch the details of a specific article by its identifier.",

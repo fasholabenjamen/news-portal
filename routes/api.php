@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SourceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,3 +16,9 @@ Route::apiResource('articles', ArticleController::class, ['only' => ['index', 's
 
 // Source routes
 Route::get('sources', [SourceController::class, 'index']);
+
+// Author routes
+Route::get('authors', [AuthorController::class, 'index']);
+
+// Category routes
+Route::get('categories', [CategoryController::class, 'index']);

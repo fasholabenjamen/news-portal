@@ -12,7 +12,9 @@ class Article extends Model
     use HasFactory;
     
     protected $with = [
-        'source'
+        'source',
+        'author',
+        'category'
     ];
     protected $guarded = [];
     protected $casts = [
@@ -24,24 +26,34 @@ class Article extends Model
         return $this->belongsTo(Source::class);
     }
 
-    public function scopeSource($query, $source_id)
+    public function author(): BelongsTo
     {
-        return $query->where('source_id', $source_id);
+        return $this->belongsTo(Author::class);
     }
 
-    public function scopeCategory($query, $category)
+    public function category(): BelongsTo
     {
-        return $query->where('category', $category);
+        return $this->belongsTo(Category::class);
+    }
+
+    public function scopeSource($query, $sources_id)
+    {
+        return $query->whereIn('source_id', $sources_id);
+    }
+
+    public function scopeCategory($query, $categories_id)
+    {
+        return $query->whereIn('category_id', $categories_id);
+    }
+
+    public function scopeAuthor($query, $authors_id)
+    {
+        return $query->whereIn('author_id', $authors_id);
     }
 
     public function scopeLanguage($query, $language)
     {
         return $query->where('language', $language);
-    }
-
-    public function scopeAuthor($query, $author)
-    {
-        return $query->where('author', $author);
     }
 
     public function scopePublishDate($query, $publish_date)

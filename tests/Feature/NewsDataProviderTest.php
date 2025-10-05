@@ -77,7 +77,6 @@ class NewsDataProviderTest extends TestCase
             'title' => 'Test NewsData Article 1',
             'provider' => 'news_data',
             'provider_id' => 'article-1',
-            'category' => 'technology business',
             'keywords' => 'tech,innovation',
         ]);
 
@@ -85,9 +84,20 @@ class NewsDataProviderTest extends TestCase
             'title' => 'Test NewsData Article 2',
             'provider' => 'news_data',
             'provider_id' => 'article-2',
-            'category' => 'science',
             'keywords' => '',
         ]);
+
+        $firstArticle = Article::with('category')
+            ->where('provider_id', 'article-1')
+            ->first();
+        $this->assertNotNull($firstArticle?->category);
+        $this->assertEquals('technology business', $firstArticle->category->label);
+
+        $secondArticle = Article::with('category')
+            ->where('provider_id', 'article-2')
+            ->first();
+        $this->assertNotNull($secondArticle?->category);
+        $this->assertEquals('science', $secondArticle->category->label);
 
         $this->assertEquals(2, $this->mockConnection->getCallCount());
     }
@@ -197,10 +207,9 @@ class NewsDataProviderTest extends TestCase
 
         $this->provider->fetchAndStoreArticles();
 
-        $this->assertDatabaseHas('articles', [
-            'title' => 'Test Article',
-            'category' => 'technology',
-        ]);
+        $article = Article::with('category')->where('title', 'Test Article')->first();
+        $this->assertNotNull($article?->category);
+        $this->assertEquals('technology', $article->category->label);
     }
 
     public function test_fetch_and_store_articles_filters_top_from_categories(): void
@@ -227,10 +236,9 @@ class NewsDataProviderTest extends TestCase
 
         $this->provider->fetchAndStoreArticles();
 
-        $this->assertDatabaseHas('articles', [
-            'title' => 'Test Article',
-            'category' => 'technology business',
-        ]);
+        $article = Article::with('category')->where('title', 'Test Article')->first();
+        $this->assertNotNull($article?->category);
+        $this->assertEquals('technology business', $article->category->label);
     }
 
     public function test_fetch_and_store_articles_creates_source(): void

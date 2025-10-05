@@ -15,6 +15,7 @@ class NewsApiDotOrgProvider extends BaseProvider
     public function fetchAndStoreArticles(): void
     {
         $sourcesReq = $this->client->getTopHeadlineSource(['language' => 'en']);
+
         if ($sourcesReq->failed()) {
             Log::error('Request to get top healines failed' . $sourcesReq->getErrorMessage());
             return;

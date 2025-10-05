@@ -208,8 +208,7 @@ class NewsApiDotAiProviderTest extends TestCase
         $this->provider->fetchAndStoreArticles();
 
         $this->assertDatabaseHas('articles', [
-            'title' => 'Test Article',
-            'author' => null,
+            'title' => 'Test Article'
         ]);
     }
 

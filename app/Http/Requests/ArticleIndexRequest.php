@@ -17,9 +17,15 @@ class ArticleIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category' => ['nullable', 'string'],
-            'author' => ['nullable', 'string'],
+            'category_id' => ['nullable', 'integer', 'exists:categories,id'],
+            'categories_id' => ['nullable', 'array'],
+            'categories_id.*' => ['integer', 'exists:categories,id'],
+            'author_id' => ['nullable', 'integer', 'exists:authors,id'],
+            'authors_id' => ['nullable', 'array'],
+            'authors_id.*' => ['integer', 'exists:authors,id'],
             'source_id' => ['nullable', 'integer', 'exists:sources,id'],
+            'sources_id' => ['nullable', 'array'],
+            'sources_id.*' => ['integer', 'exists:sources,id'],
             'publish_date' => ['nullable', 'string'],
             'q' => ['nullable', 'string'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
@@ -29,43 +35,33 @@ class ArticleIndexRequest extends FormRequest
 
     public function categoryFilters(): array
     {
-        return $this->filterStringArray('categories');
+        return $this->filterNumericArray('categories_id', 'category_id');
     }
 
     public function authorFilters(): array
     {
-        return $this->filterStringArray('authors');
+        return $this->filterNumericArray('authors_id', 'author_id');
     }
 
-    /**
-     * @return array<int, int>
-     */
     public function sourceFilters(): array
     {
-        return $this->filterNumericArray('sources');
+        return $this->filterNumericArray('sources_id', 'source_id');
     }
 
-    /**
-     * @return array<int, string>
-     */
-    private function filterStringArray(string $key): array
+    private function filterNumericArray(string $arrayKey, ?string $singleKey = null): array
     {
-        return collect(data_get($this->validated(), $key, []))
-            ->filter(fn ($value) => filled($value))
-            ->map(fn ($value) => (string) $value)
-            ->values()
-            ->all();
-    }
+        $validated = $this->validated();
 
-    /**
-     * @return array<int, int>
-     */
-    private function filterNumericArray(string $key): array
-    {
-        return collect(data_get($this->validated(), $key, []))
+        return collect(data_get($validated, $arrayKey, []))
             ->filter(fn ($value) => filled($value))
             ->map(fn ($value) => (int) $value)
+            ->when($singleKey && filled(data_get($validated, $singleKey)), function ($collection) use ($validated, $singleKey) {
+                $collection->push((int) data_get($validated, $singleKey));
+
+                return $collection;
+            })
             ->values()
+            ->unique()
             ->all();
     }
 }

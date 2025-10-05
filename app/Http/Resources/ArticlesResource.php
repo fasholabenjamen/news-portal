@@ -42,14 +42,14 @@ class ArticlesResource extends JsonResource
             'description' => $this->description,
             'content' => $this->content,
             'image_url' => $this->image_url,
-            'source_id' => $this->source_id,
-            'author' => $this->author,
             'link' => $this->link,
             'published_at' => $this->published_at?->toIso8601String(),
             'category' => $this->category,
             'language' => $this->language,
             'keywords' => $this->keywords,
             'source' => SourceResource::make($this->whenLoaded('source')),
+            'author' => AuthorResource::make($this->whenLoaded('author')),
+            'category' => CategoryResource::make($this->whenLoaded('category'))
         ];
     }
 }

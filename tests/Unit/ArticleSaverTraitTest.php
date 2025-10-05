@@ -13,6 +13,7 @@ use App\Contracts\Article\HasProviderIdentity;
 use App\Contracts\Article\HasSource;
 use App\Models\Article;
 use App\Models\Source;
+use Illuminate\Support\Str;
 use App\Traits\ArticleSaver;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -105,9 +106,27 @@ class ArticleSaverTraitTest extends TestCase
             'description' => 'Test Description',
             'keywords' => 'test,keywords',
             'language' => 'en',
-            'author' => 'John Doe',
-            'category' => 'Technology',
             'image_url' => 'http://example.com/image.jpg',
+        ]);
+
+        $article = Article::with(['author', 'category'])
+            ->where('title', 'Test Article Title')
+            ->first();
+
+        $this->assertNotNull($article);
+        $this->assertNotNull($article->author_id);
+        $this->assertNotNull($article->category_id);
+
+        $this->assertDatabaseHas('authors', [
+            'id' => $article->author_id,
+            'label' => 'John Doe',
+            'key' => Str::slug('John Doe'),
+        ]);
+
+        $this->assertDatabaseHas('categories', [
+            'id' => $article->category_id,
+            'label' => 'Technology',
+            'key' => Str::slug('Technology'),
         ]);
     }
 

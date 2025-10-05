@@ -25,6 +25,10 @@
         <env name="DB_CONNECTION" value="mysql"/>
         <env name="DB_DATABASE" value="news_portal_test"/>
         <env name="DB_HOST" value="test_db"/>
+        <env name="NEWSAPI_DOT_ORG_API_TOKEN" value="dummy-token"/>
+        <env name="NEWSAPI_DOT_AI_API_TOKEN" value="dummy-token"/>
+        <env name="NEWS_DATA_TOKEN" value="dummy-token"/>
+        <env name="NEW_YORK_TIMES_TOKEN" value="dummy-token"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>

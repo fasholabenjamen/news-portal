@@ -24,13 +24,13 @@ return new class extends Migration
             $table->mediumText('image_url')->nullable();
             // Metadata
             $table->unsignedBigInteger('source_id')->index()->nullable();
-            $table->string('author')->index()->nullable();
+            $table->unsignedBigInteger('author_id')->index()->nullable();
+            $table->unsignedBigInteger('category_id')->index()->nullable();
             $table->mediumText('link');
             $table->dateTime('published_at')->index();
-            $table->string('category')->index()->nullable();
             $table->string('language', 20)->nullable();
-            // Search helpers
-            $table->mediumText('keywords')->nullable(); // Comma-separated keywords
+
+            $table->mediumText('keywords')->nullable();
             $table->fullText(['title', 'description', 'keywords', 'content']);
 
             $table->timestamps();

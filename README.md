@@ -14,11 +14,16 @@ Follow the steps below to setup the project.
 6. Run `docker compose run --rm app composer install` to install all dependencies
 7. Run `docker compose run --rm app php artisan key:generate` to generate app key
 8. Run `docker compose run --rm app php artisan migrate` to run database migrations.
-<!-- 9. Make a POST request to `http://localhost:{WEB_PORT}/api/` to mark competition as start. -->
+9. Goto http://localhost:{YOUR_PORT}/api/documentation e.g http://localhost:8085/api/documentation to view the API documentation
 10. Run `docker compose run --rm app php artisan schedule:work` to start background process
 11. RUn `docker compose run --rm app php artisan queue:work` to listen to any dispatched job
+12. To run testcases, run `docker compose run --rm app php artisan test`
 
-10. To run testcases, run `docker compose run --rm app php artisan test`
-
-**Note**: You can execute php artisan commands inside a container by running `docker compose exec app sh`.
+**Note**:
+You can execute php artisan commands inside a container by running `docker compose exec app sh`.
+You need to setup the following environment variable so that this app can fetch articles from the services
+NEWSAPI_DOT_ORG_API_TOKEN=
+NEWSAPI_DOT_AI_API_TOKEN=
+NEWS_DATA_TOKEN=
+NEW_YORK_TIMES_TOKEN=
 

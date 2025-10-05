@@ -14,6 +14,8 @@ use App\Contracts\Article\{
     HasImageUrl,
 };
 use App\Models\Article;
+use App\Models\Author;
+use App\Models\Category;
 use App\Models\Source;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -60,16 +62,24 @@ trait ArticleSaver
         if ($article instanceof HasLanguage) {
             $article_model->language = $article->getLanguage();
         }
-        if ($article instanceof HasAuthorName) {
-            $article_model->author = $article->getAuthorName();
+        if ($article instanceof HasAuthorName && $article->getAuthorName()) {
+            $author = Author::firstOrCreate(
+                ['key' => Str::slug($article->getAuthorName())],
+                ['label' => $article->getAuthorName()]
+            );
+            $article_model->author_id = $author->id;
         }
-        if ($article instanceof HasCategory) {
-            $article_model->category = $article->getCategory();
+        if ($article instanceof HasCategory && $article->getCategory()) {
+            $category = Category::firstOrCreate(
+                ['key' => Str::slug($article->getCategory())],
+                ['label' => $article->getCategory()]
+            );
+            $article_model->category_id = $category->id;
         }
         if ($article instanceof HasImageUrl) {
             $article_model->image_url = $article->getImageUrl();
         }
-        if ($article instanceof HasSource) {
+        if ($article instanceof HasSource && $article->getSourceKey()) {
             $source = Source::firstOrCreate(
                 ['key' => $article->getSourceKey()],
                 ['label' => $article->getSourceName()]

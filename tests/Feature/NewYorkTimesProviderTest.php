@@ -63,15 +63,25 @@ class NewYorkTimesProviderTest extends TestCase
             'title' => 'Test NYT Article 1',
             'provider' => 'new_york_times',
             'provider_id' => '123456789',
-            'category' => 'Technology',
         ]);
 
         $this->assertDatabaseHas('articles', [
             'title' => 'Test NYT Article 2',
             'provider' => 'new_york_times',
             'provider_id' => '987654321',
-            'category' => 'Science',
         ]);
+
+        $firstArticle = Article::with('category')
+            ->where('provider_id', '123456789')
+            ->first();
+        $this->assertNotNull($firstArticle?->category);
+        $this->assertEquals('Technology', $firstArticle->category->label);
+
+        $secondArticle = Article::with('category')
+            ->where('provider_id', '987654321')
+            ->first();
+        $this->assertNotNull($secondArticle?->category);
+        $this->assertEquals('Science', $secondArticle->category->label);
     }
 
     public function test_fetch_and_store_articles_handles_failed_request(): void
