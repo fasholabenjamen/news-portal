@@ -16,7 +16,7 @@ Follow the steps below to setup the project.
 8. Run `docker compose run --rm app php artisan migrate` to run database migrations.
 9. Goto http://localhost:{YOUR_PORT}/api/documentation e.g http://localhost:8085/api/documentation to view the API documentation
 10. Run `docker compose run --rm app php artisan schedule:work` to start background process
-11. RUn `docker compose run --rm app php artisan queue:work` to listen to any dispatched job
+11. Run `docker compose run --rm app php artisan queue:work --timeout=1200` to listen to any dispatched job
 12. To run testcases, run `docker compose run --rm app php artisan test`
 
 **Note**:
