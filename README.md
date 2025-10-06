@@ -20,12 +20,17 @@ Follow the steps below to setup the project.
 12. To run testcases, run `docker compose run --rm app php artisan test`
 
 **Note**:
-You can execute php artisan commands inside a container by running `docker compose exec app sh`.
+You can execute php artisan commands inside a container by running `docker compose exec app bash`.
 You need to setup the following environment variable so that this app can fetch articles from the services
+```
 NEWSAPI_DOT_ORG_API_TOKEN=
 NEWSAPI_DOT_AI_API_TOKEN=
 NEWS_DATA_TOKEN=
 NEW_YORK_TIMES_TOKEN=
+```
+
+Once the above environment variables are set, you can run `php artisan app:fetch-articles` to initiate background jobs that will handle the articles fetching.
+Note: make sure queue work is listening for jobs by running the command in No. 11 above
 
 Swagger Documentation
 <img width="3250" height="1812" alt="image" src="https://github.com/user-attachments/assets/c86a64a2-b5be-4493-89a5-a576cc696b36" />
