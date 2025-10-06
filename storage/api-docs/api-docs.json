@@ -22,81 +22,33 @@
                 "operationId": "89181b74a8aa4d580750ede6aa32f92a",
                 "parameters": [
                     {
-                        "name": "category_id",
-                        "in": "query",
-                        "description": "Filter by category identifier",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    },
-                    {
                         "name": "categories_id",
                         "in": "query",
-                        "description": "Filter by user categories identifier",
+                        "description": "Filter by category identifiers (comma-separated)",
                         "required": false,
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer"
-                            },
-                            "example": [
-                                2,
-                                3
-                            ]
-                        }
-                    },
-                    {
-                        "name": "author_id",
-                        "in": "query",
-                        "description": "Filter by author identifier",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "string",
+                            "example": "2,3"
                         }
                     },
                     {
                         "name": "authors_id",
                         "in": "query",
-                        "description": "Filter by authors identifier",
+                        "description": "Filter by author identifiers (comma-separated)",
                         "required": false,
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer"
-                            },
-                            "example": [
-                                1,
-                                2
-                            ]
-                        }
-                    },
-                    {
-                        "name": "source_id",
-                        "in": "query",
-                        "description": "Filter by source identifier",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "example": 3
+                            "type": "string",
+                            "example": "1,2"
                         }
                     },
                     {
                         "name": "sources_id",
                         "in": "query",
-                        "description": "Filter by sources identifier",
+                        "description": "Filter by source identifiers (comma-separated)",
                         "required": false,
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer"
-                            },
-                            "example": [
-                                3,
-                                4
-                            ]
+                            "type": "string",
+                            "example": "3,4"
                         }
                     },
                     {

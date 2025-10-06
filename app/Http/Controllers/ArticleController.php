@@ -16,47 +16,26 @@ class ArticleController extends Controller
      *     tags={"Articles"},
      *     summary="Get a paginated list of articles",
      *     description="Retrieve articles with optional filters for category, author, source, publish date range, and free-text search across title, description, content, and keywords.",
-     *     @OA\Parameter(
-     *         name="category_id",
-     *         in="query",
-     *         description="Filter by category identifier",
-     *         required=false,
-    *         @OA\Schema(type="integer", example=1)
-     *     ),
-     *     @OA\Parameter(
-     *         name="categories_id",
-     *         in="query",
-     *         description="Filter by user categories identifier",
-     *         required=false,
-    *         @OA\Schema(type="array", @OA\Items(type="integer"), example={2, 3})
-     *     ),
-     *     @OA\Parameter(
-     *         name="author_id",
-     *         in="query",
-     *         description="Filter by author identifier",
-     *         required=false,
-    *         @OA\Schema(type="integer", example=1)
-     *     ),
+    *     @OA\Parameter(
+    *         name="categories_id",
+    *         in="query",
+    *         description="Filter by category identifiers (comma-separated)",
+    *         required=false,
+    *         @OA\Schema(type="string", example="2,3")
+    *     ),
      *     @OA\Parameter(
      *         name="authors_id",
      *         in="query",
-     *         description="Filter by authors identifier",
-     *         required=false,
-    *         @OA\Schema(type="array", @OA\Items(type="integer"), example={1, 2})
-     *     ),
-     *     @OA\Parameter(
-     *         name="source_id",
-     *         in="query",
-     *         description="Filter by source identifier",
-     *         required=false,
-     *         @OA\Schema(type="integer", example=3)
+    *         description="Filter by author identifiers (comma-separated)",
+    *         required=false,
+    *         @OA\Schema(type="string", example="1,2")
      *     ),
      *     @OA\Parameter(
      *         name="sources_id",
      *         in="query",
-     *         description="Filter by sources identifier",
-     *         required=false,
-    *         @OA\Schema(type="array", @OA\Items(type="integer"), example={3, 4})
+    *         description="Filter by source identifiers (comma-separated)",
+    *         required=false,
+    *         @OA\Schema(type="string", example="3,4")
      *     ),
      *     @OA\Parameter(
      *         name="publish_date",
